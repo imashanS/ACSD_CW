@@ -1,9 +1,15 @@
 import data from "./data/properties.json";
+import SearchForm from "./assets/SearchForm.jsx";
 
 function App() {
     return (
         <div>
-            <h1>All Properties</h1>
+            <h1>Property Search</h1>
+            {/* Search Form */}
+            <SearchForm />
+
+            <hr/>
+            <h2> All properties</h2>
 
             {data.properties.map((property) => (
                 <div key={property.id}>
@@ -12,7 +18,7 @@ function App() {
                         alt="property"
                         width="200"
                     />
-                    <h2>£{property.price}</h2>
+                    <h3>£{property.price}</h3>
                     <p>Bedrooms: {property.bedrooms}</p>
                     <p>{property.location}</p>
                 </div>
