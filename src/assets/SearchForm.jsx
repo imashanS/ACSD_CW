@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function SearchForm() {
+function SearchForm({onSearch}) {
     const [type, setType] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
@@ -12,7 +12,7 @@ function SearchForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log({
+        onSearch({
             type,
             minPrice,
             maxPrice,
