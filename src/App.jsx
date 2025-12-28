@@ -1,6 +1,8 @@
 import { useState } from "react";
 import data from "./data/properties.json";
 import SearchForm from "./assets/SearchForm";
+import { Routes, Route, Link } from "react-router-dom";
+import PropertyDetails from "./pages/PropertyDetails";
 
 function App() {
     // 🔹 Search state lives here now
@@ -31,26 +33,36 @@ function App() {
     });
 
     return (
-        <div>
-            <h1>Property Search</h1>
+        <Routes>
+            <Route path="/"
+                   element={
+                       <div>
+                           <h1>Property Search</h1>
 
-            {/* Pass function to child */}
-            <SearchForm onSearch={setSearchValues} />
+                           {/* Pass function to child */}
+                           <SearchForm onSearch={setSearchValues}/>
 
-            <hr />
+                           <hr/>
 
-            <h2>Search Results</h2>
+                           <h2>Search Results</h2>
 
-            {filteredProperties.map((property) => (
-                <div key={property.id}>
-                    <img src={property.picture} alt="property" width="200" />
-                    <h3>£{property.price}</h3>
-                    <p>Bedrooms: {property.bedrooms}</p>
-                    <p>{property.location}</p>
-                </div>
-            ))}
-        </div>
+                           {filteredProperties.map((property) => (
+                               <div key={property.id}>
+                                   <Link to={`/property/${property.id}`}>
+                                       <img src={property.picture} alt="property" width="200" />
+                                       <h3>£{property.price}</h3>
+                                   </Link>
+
+                                   <p>Bedrooms: {property.bedrooms}</p>
+                                   <p>{property.location}</p>
+                               </div>
+                           ))}
+                       </div>
+                   }
+            />
+
+            <Route path="/property/:id" element={<PropertyDetails/>}/>
+        </Routes>
     );
 }
-
 export default App;
