@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import data from "../data/properties.json";
 
-function PropertyDetails() {
+function PropertyDetails({ addToFavourites, favourites }) {
     const { id } = useParams();
 
 
@@ -54,7 +54,10 @@ function PropertyDetails() {
             <p>Bedrooms: {property.bedrooms}</p>
             <p>Location: {property.location}</p>
 
-            <button onClick={() => alert("Added to favourites!")}>
+            <button
+                onClick={() => addToFavourites(property)}
+                disabled={favourites.some((fav) => fav.id === property.id)}
+            >
                 ❤️ Add to Favourites
             </button>
 

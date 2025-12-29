@@ -8,6 +8,23 @@ function App() {
     // Search state
     const [searchValues, setSearchValues] = useState({});
 
+    const [favourites, setFavourites] = useState([]);
+
+    const addToFavourites = (property) => {
+        // prevent duplicates
+        if (!favourites.some((fav) => fav.id === property.id)) {
+            setFavourites([...favourites, property]);
+        }
+    };
+
+    const removeFromFavourites = (id) => {
+        setFavourites(favourites.filter((fav) => fav.id !== id));
+    };
+
+    const clearFavourites = () => {
+        setFavourites([]);
+    };
+
     // Filter properties
     const filteredProperties = data.properties.filter((property) => {
         const {
@@ -45,6 +62,26 @@ function App() {
 
                         <hr />
 
+                        <h2>Favourites</h2>
+
+                        {favourites.length === 0 && <p>No favourites yet</p>}
+
+                        {favourites.map((fav) => (
+                            <div key={fav.id}>
+                                <h4>£{fav.price}</h4>
+                                <p>{fav.location}</p>
+                                <button onClick={() => removeFromFavourites(fav.id)}>
+                                    Remove
+                                </button>
+                            </div>
+                        ))}
+
+                        {favourites.length > 0 && (
+                            <button onClick={clearFavourites}>
+                                Clear Favourites
+                            </button>
+                        )}
+
                         <h2>Search Results</h2>
 
                         {filteredProperties.map((property) => (
@@ -67,7 +104,15 @@ function App() {
             />
 
             {/* PROPERTY DETAILS PAGE */}
-            <Route path="/property/:id" element={<PropertyDetails />} />
+            <Route
+                path="/property/:id"
+                element={
+                    <PropertyDetails
+                        addToFavourites={addToFavourites}
+                        favourites={favourites}
+                    />
+                }
+            />
         </Routes>
     );
 }
