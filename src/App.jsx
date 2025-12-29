@@ -1,14 +1,14 @@
 import { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import data from "./data/properties.json";
 import SearchForm from "./assets/SearchForm";
-import { Routes, Route, Link } from "react-router-dom";
 import PropertyDetails from "./pages/PropertyDetails";
 
 function App() {
-    // 🔹 Search state lives here now
+    // Search state
     const [searchValues, setSearchValues] = useState({});
 
-    // 🔹 Filter logic
+    // Filter properties
     const filteredProperties = data.properties.filter((property) => {
         const {
             type,
@@ -34,35 +34,42 @@ function App() {
 
     return (
         <Routes>
-            <Route path="/"
-                   element={
-                       <div>
-                           <h1>Property Search</h1>
+            {/* SEARCH PAGE */}
+            <Route
+                path="/"
+                element={
+                    <div>
+                        <h1>Property Search</h1>
 
-                           {/* Pass function to child */}
-                           <SearchForm onSearch={setSearchValues}/>
+                        <SearchForm onSearch={setSearchValues} />
 
-                           <hr/>
+                        <hr />
 
-                           <h2>Search Results</h2>
+                        <h2>Search Results</h2>
 
-                           {filteredProperties.map((property) => (
-                               <div key={property.id}>
-                                   <Link to={`/property/${property.id}`}>
-                                       <img src={property.picture} alt="property" width="200" />
-                                       <h3>£{property.price}</h3>
-                                   </Link>
+                        {filteredProperties.map((property) => (
+                            <div key={property.id} style={{ marginBottom: "20px" }}>
+                                <Link to={`/property/${property.id}`}>
+                                    <img
+                                        src={property.picture}
+                                        alt="property"
+                                        width="200"
+                                    />
+                                    <h3>£{property.price}</h3>
+                                </Link>
 
-                                   <p>Bedrooms: {property.bedrooms}</p>
-                                   <p>{property.location}</p>
-                               </div>
-                           ))}
-                       </div>
-                   }
+                                <p>Bedrooms: {property.bedrooms}</p>
+                                <p>{property.location}</p>
+                            </div>
+                        ))}
+                    </div>
+                }
             />
 
-            <Route path="/property/:id" element={<PropertyDetails/>}/>
+            {/* PROPERTY DETAILS PAGE */}
+            <Route path="/property/:id" element={<PropertyDetails />} />
         </Routes>
     );
 }
+
 export default App;
