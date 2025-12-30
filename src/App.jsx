@@ -62,19 +62,22 @@ function App() {
 
                         <hr />
 
-                        <h2>Favourites</h2>
+                        <div
+                            onDragOver={(e) => e.preventDefault()}
+                        >
+                            <h2>Favourites</h2>
 
-                        {favourites.length === 0 && <p>No favourites yet</p>}
+                            {favourites.map((fav) => (
+                                <div
+                                    key={fav.id}
+                                    draggable
+                                    onDragStart={() => removeFromFavourites(fav.id)}
+                                >
+                                    <p>£{fav.price} - {fav.location}</p>
+                                </div>
+                            ))}
+                        </div>
 
-                        {favourites.map((fav) => (
-                            <div key={fav.id}>
-                                <h4>£{fav.price}</h4>
-                                <p>{fav.location}</p>
-                                <button onClick={() => removeFromFavourites(fav.id)}>
-                                    Remove
-                                </button>
-                            </div>
-                        ))}
 
                         {favourites.length > 0 && (
                             <button onClick={clearFavourites}>
@@ -85,7 +88,11 @@ function App() {
                         <h2>Search Results</h2>
 
                         {filteredProperties.map((property) => (
-                            <div key={property.id} style={{ marginBottom: "20px" }}>
+                            <div
+                                key={property.id}
+                                draggable
+                                onDragStart={() => addToFavourites(property)}
+                            >
                                 <Link to={`/property/${property.id}`}>
                                     <img
                                         src={property.picture}
